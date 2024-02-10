@@ -1,10 +1,7 @@
 var WebGLUtils = function() {
     enum WebGLContextType {
         WebGL,
-        WebGL2,
-        TwoD,
-        WebGPU,
-        BitMapRenderer
+        WebGL2
     }
 
     enum WebGLShaderType {
@@ -15,19 +12,11 @@ var WebGLUtils = function() {
     var setupWebGL = function(canvas:  HTMLCanvasElement, webglContextType: WebGLContextType = WebGLContextType.WebGL, contextAttributes?: Object): RenderingContext | null {
         let contextType: string = (function() {
             switch(webglContextType) {
-                case WebGLContextType.TwoD:
-                    return "2d";
                 case WebGLContextType.WebGL:
                     return "webgl";
                 case WebGLContextType.WebGL2:
                     return "webgl2";
-                case WebGLContextType.WebGPU:
-                    return "webgpu";
-                case WebGLContextType.BitMapRenderer:
-                    return "bitmaprenderer";
-                default:
-                    return "webgl";
-            };
+            }
         })();
 
         let context: RenderingContext | null;
