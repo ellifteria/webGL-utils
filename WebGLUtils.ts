@@ -1,4 +1,4 @@
-var WebGLUtils = function() {
+let WebGLUtils = function() {
     enum WebGLContextType {
         WebGL,
         WebGL2
@@ -9,7 +9,7 @@ var WebGLUtils = function() {
         FragmentShader
     }
 
-    var setupWebGL = function(canvas:  HTMLCanvasElement, webglContextType: WebGLContextType = WebGLContextType.WebGL, contextAttributes?: Object): RenderingContext | null {
+    var setupWebGL = function(canvas:  HTMLCanvasElement, webglContextType: WebGLContextType = WebGLContextType.WebGL, contextAttributes?: Object): WebGLRenderingContext | WebGL2RenderingContext | null {
         let contextType: string = (function() {
             switch(webglContextType) {
                 case WebGLContextType.WebGL:
@@ -19,11 +19,11 @@ var WebGLUtils = function() {
             }
         })();
 
-        let context: RenderingContext | null;
+        let context: WebGLRenderingContext | WebGL2RenderingContext | null;
         if (typeof(contextAttributes) !== 'undefined') {
-            context = canvas.getContext(contextType, contextAttributes);
+            context = <WebGLRenderingContext | WebGL2RenderingContext | null>canvas.getContext(contextType, contextAttributes);
         } else {
-            context = canvas.getContext(contextType);
+            context = <WebGLRenderingContext | WebGL2RenderingContext | null>canvas.getContext(contextType);
         }
 
         return context;
@@ -59,8 +59,8 @@ var WebGLUtils = function() {
     };
     
     var createProgram = function(gl: WebGLRenderingContext | WebGL2RenderingContext, vertexShader: WebGLShader, fragmentShader: WebGLShader): WebGLProgram | null {
-        let program: WebGLProgram | null = gl.createProgram;
-        if (program === null) return null;
+        let program: WebGLProgram | null = gl.createProgram();
+        if (program == null) return null;
 
         gl.attachShader(program, vertexShader);
         gl.attachShader(program, fragmentShader);
@@ -87,4 +87,4 @@ var WebGLUtils = function() {
         createShader: createShader,
         createProgram: createProgram,
     };
-}
+}();

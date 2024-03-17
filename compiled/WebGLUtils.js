@@ -1,17 +1,16 @@
-var WebGLUtils = function () {
-    var WebGLContextType;
+let WebGLUtils = function () {
+    let WebGLContextType;
     (function (WebGLContextType) {
         WebGLContextType[WebGLContextType["WebGL"] = 0] = "WebGL";
         WebGLContextType[WebGLContextType["WebGL2"] = 1] = "WebGL2";
     })(WebGLContextType || (WebGLContextType = {}));
-    var WebGLShaderType;
+    let WebGLShaderType;
     (function (WebGLShaderType) {
         WebGLShaderType[WebGLShaderType["VertexShader"] = 0] = "VertexShader";
         WebGLShaderType[WebGLShaderType["FragmentShader"] = 1] = "FragmentShader";
     })(WebGLShaderType || (WebGLShaderType = {}));
-    var setupWebGL = function (canvas, webglContextType, contextAttributes) {
-        if (webglContextType === void 0) { webglContextType = WebGLContextType.WebGL; }
-        var contextType = (function () {
+    var setupWebGL = function (canvas, webglContextType = WebGLContextType.WebGL, contextAttributes) {
+        let contextType = (function () {
             switch (webglContextType) {
                 case WebGLContextType.WebGL:
                     return "webgl";
@@ -19,7 +18,7 @@ var WebGLUtils = function () {
                     return "webgl2";
             }
         })();
-        var context;
+        let context;
         if (typeof (contextAttributes) !== 'undefined') {
             context = canvas.getContext(contextType, contextAttributes);
         }
@@ -29,7 +28,7 @@ var WebGLUtils = function () {
         return context;
     };
     var createShader = function (gl, type, source) {
-        var glShaderType = (function () {
+        let glShaderType = (function () {
             switch (type) {
                 case WebGLShaderType.VertexShader:
                     return gl.VERTEX_SHADER;
@@ -37,14 +36,14 @@ var WebGLUtils = function () {
                     return gl.FRAGMENT_SHADER;
             }
         })();
-        var shader = gl.createShader(glShaderType);
+        let shader = gl.createShader(glShaderType);
         if (shader === null)
             return null;
         gl.shaderSource(shader, source);
         gl.compileShader(shader);
-        var compiled = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+        let compiled = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
         if (!compiled) {
-            var compilationError = gl.getShaderInfoLog(shader);
+            let compilationError = gl.getShaderInfoLog(shader);
             console.log('Failed tp compile shader: ' + compilationError);
             gl.deleteShader(shader);
             return null;
@@ -52,15 +51,15 @@ var WebGLUtils = function () {
         return shader;
     };
     var createProgram = function (gl, vertexShader, fragmentShader) {
-        var program = gl.createProgram;
-        if (program === null)
+        let program = gl.createProgram();
+        if (program == null)
             return null;
         gl.attachShader(program, vertexShader);
         gl.attachShader(program, fragmentShader);
         gl.linkProgram(program);
-        var linked = gl.getProgramParameter(program, gl.LINK_STATUS);
+        let linked = gl.getProgramParameter(program, gl.LINK_STATUS);
         if (!linked) {
-            var linkError = gl.getProgramInfoLog(program);
+            let linkError = gl.getProgramInfoLog(program);
             console.log('Failed to link program: ' + linkError);
             gl.deleteProgram(program);
             gl.deleteShader(vertexShader);
@@ -76,4 +75,4 @@ var WebGLUtils = function () {
         createShader: createShader,
         createProgram: createProgram,
     };
-};
+}();
